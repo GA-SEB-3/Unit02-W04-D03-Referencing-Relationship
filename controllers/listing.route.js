@@ -31,8 +31,14 @@ router.post("/",async(req,res)=>{
 
 router.get("/:listingId",async(req,res)=>{
     const foundListing = await Listing.findById(req.params.listingId).populate("owner")
+
+    const userhasFavorited = foundListing.favoritedByUser.some((user)=>{
+       user.equals(req.session.user._id) 
+    })
     console.log(foundListing)
-    res.render("listing/show.ejs",{listing:foundListing})
+    res.render("listing/show.ejs",{listing:foundListing,
+        userhasFavorited:userhasFavorited
+    })
 })
 
 router.post("/:listingId/favorited-by/:userId",async(req,res)=>{
