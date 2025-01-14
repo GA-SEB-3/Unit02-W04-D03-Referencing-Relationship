@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const morgan = require('morgan');
 const session = require('express-session');
+const listingsController = require("./controllers/listing.route.js")
 
 const authController = require('./controllers/auth.js');
 
@@ -43,6 +44,8 @@ app.get('/vip-lounge', (req, res) => {
 });
 
 app.use('/auth', authController);
+
+app.use("/listing",listingsController)
 
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}!`);
