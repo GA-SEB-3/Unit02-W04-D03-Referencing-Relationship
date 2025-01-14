@@ -23,7 +23,11 @@ const listingSchema = new mongoose.Schema({
         // type is objectId
         type: mongoose.Schema.Types.ObjectId,
         ref:"User"
-    }
+    },
+    favoritedByUser:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"User"
+    }]
 
 })
 
