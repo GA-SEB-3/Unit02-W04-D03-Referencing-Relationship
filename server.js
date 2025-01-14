@@ -7,8 +7,10 @@ const methodOverride = require('method-override');
 const morgan = require('morgan');
 const session = require('express-session');
 const listingsController = require("./controllers/listing.route.js")
+const isSignedIn = require("./middleware/is-signed-in.js")
 
 const authController = require('./controllers/auth.js');
+const passUserToView = require('./middleware/pass-to-user.js');
 
 const port = process.env.PORT ? process.env.PORT : '3000';
 
@@ -29,6 +31,8 @@ app.use(
   })
 );
 
+app.use(passUserToView)
+
 app.get('/', (req, res) => {
   res.render('index.ejs', {
     user: req.session.user,
@@ -44,7 +48,7 @@ app.get('/vip-lounge', (req, res) => {
 });
 
 app.use('/auth', authController);
-
+app.use(isSignedIn)
 app.use("/listing",listingsController)
 
 app.listen(port, () => {
